@@ -1,0 +1,56 @@
+﻿@model _25dh110017_Mystore.Models.ViewModel.HomeProductVM
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Customer Home Page";
+}
+
+<!-- Liên kết file CSS tùy chỉnh cho trang khách hàng -->
+<link rel="stylesheet" type="text/css" href="~/Content/myStyle/CustomerHome.css" />
+
+<!-- PHẦN BANNER -->
+<section class="container-fluid banner">
+    <div class="banner-container">
+        <h2>Chào mừng đến trang web E-commerce</h2>
+        <p>Mua sắm trực tuyến với hàng ngàn sản phẩm đa dạng và chất lượng</p>
+        <a href="#product-section" class="btnBanner">Bắt đầu mua sắm</a>
+    </div>
+</section>
+
+<!-- PHẦN TÌM KIẾM SẢN PHẨM -->
+<section class="container-fluid searchProd">
+    <h2>Tìm kiếm sản phẩm</h2>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <div class="form-group search-container">
+            @Html.TextBoxFor(m => m.SearchTerm, new
+            {
+                @class = "search-input",
+                placeholder = "Nhập từ khóa tìm kiếm (tên)..."
+            })
+            <button type="submit" class="search-button">Tìm kiếm</button>
+        </div>
+    }
+</section>
+<hr />
+
+<div id="product-section" class="container">
+    <!-- NẾU CÓ DỮ LIỆU: HIỂN THỊ 2 PARTIAL VIEWS -->
+    @if ((Model.FeaturedProducts != null && Model.FeaturedProducts.Any()) || (Model.NewProducts != null && Model.NewProducts.Any()))
+    {
+        <!-- PHẦN SẢN PHẨM NỔI BẬT (Gọi Partial View 1) -->
+        @Html.Partial("_PVFeatureProduct", Model)
+
+        <hr />
+
+        <!-- PHẦN SẢN PHẨM MỚI (Gọi Partial View 2) -->
+        @Html.Partial("_PVNewProduct", Model)
+    }
+    else
+    {
+        <!-- NẾU TRỐNG: THÔNG BÁO CHO NGUỜI DÙNG -->
+        <div class="alert alert-warning text-center my-4" role="alert">
+            <p style="margin: 0; font-size: 16px;">Không tìm thấy sản phẩm nào phù hợp.</p>
+        </div>
+    }
+</div>

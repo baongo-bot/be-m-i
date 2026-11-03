@@ -1,0 +1,28 @@
+﻿@model _25dh110017_Mystore.Models.Product
+
+@{
+    ViewBag.Title = Model.ProductName;
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="@(Model.ProductImage.StartsWith("http") ? Model.ProductImage : Url.Content("~/Images/" + Model.ProductImage))"
+                 alt="@Model.ProductName"
+                 class="img-fluid rounded shadow"
+                 onerror="this.src='https://picsum.photos/seed/@Model.ProductID/400/500'" />
+        </div>
+        <div class="col-md-7">
+            <h2>@Model.ProductName</h2>
+            <p class="text-muted">Danh mục: <strong>@(Model.Category != null ? Model.Category.CategoryName : "Khác")</strong></p>
+            <h3 class="text-danger font-weight-bold">@string.Format("{0:N0} VNĐ", Model.ProductPrice)</h3>
+            <hr />
+            <h5>Mô tả / Kích thước:</h5>
+            <p>@Model.ProductDescription</p>
+            <div class="mt-4">
+                <a href="@Url.Action("AddToCart", "Cart", new { id = Model.ProductID })" class="btn btn-success btn-lg">Thêm vào giỏ hàng</a>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary btn-lg ml-2">Quay lại trang chủ</a>
+            </div>
+        </div>
+    </div>
+</div>
